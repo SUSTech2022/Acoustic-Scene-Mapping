@@ -1,30 +1,32 @@
-function [ospa_distance, ospa_loc,ospa_card] = calculate_OSPA_distance(detectedSourceFilters, srcGroundTruth, resolution,c,p)
-    I = size(detectedSourceFilters, 2); % 估计的点数 I
-    H = size(srcGroundTruth, 1); % 真实数量
-  
-    cardility_error = I - H;
+function [ospa, locOspa,cardOspa] = calculate_OSPA_distance(detectedSourceFilters, srcGroundTruth, resolution,c,p)
+    % Calculates the OSPA (Optimal Sub-Pattern Assignment) distance between estimated source position and ground truth data.
 
-    d_c = zeros(H, I);
+    I = size(detectedSourceFilters, 2); % Number of estimated points I
+    H = size(srcGroundTruth, 1); % Number of true sources
+    srcGroundTruth = srcGroundTruth * resolution; % unit: m
+    
+    % Convert detectedSourceFilters to a structure array to meet the requirements of trackOSPAMetric
+    tracks.State = detectedSourceFilters{1}.State; 
     for i = 1:I
-        particleFilter = detectedSourceFilters{i};
-        meanPosition = particleFilter.State;
-        d_c(:, i) = min(c, abs((srcGroundTruth(:,1) - meanPosition(1)).^p + abs(srcGroundTruth(:,2) - meanPosition(2)).^p).^(1/p)); 
-    end
-
-    % 使用匈牙利算法找到最优的配对
-    assignment = munkres(d_c);
-
-    if I <= H
-        % 计算 OSPA 距离
-        ospa_distance = (1/H * (sum(d_c(assignment).^p) + (H-I)*c^p))^(1/p) *resolution;
-        ospa_loc = (1/H * sum(d_c(assignment).^p))^(1/p) *resolution;
-        ospa_card = (1/H *(H-I)*c^p)^(1/p) *resolution;
-    else
-        d_c = d_c';
-        assignment = munkres(d_c);
-        ospa_distance = (1/I * (sum(d_c(assignment).^p) + (I-H)*c^p))^(1/p) *resolution;
-        ospa_loc = (1/I * sum(d_c(assignment).^p))^(1/p) *resolution;
-        ospa_card = (1/I *(I-H)*c^p)^(1/p) *resolution;
+        position = detectedSourceFilters{i}.State * resolution;
+        tracks(i).State = [position(1); 0; position(2); 0; 0; 0];  % position 1,3,5, velocity 2,4,6
+    end 
+    
+    truths.Position = srcGroundTruth(1,:);
+    truths.Velocity = [0, 0, 0];
+    for h = 1:H
+        truths(h).Position = srcGroundTruth(h,:);
+        truths(h).Velocity = [0, 0, 0];
     end
     
+    % Create a trackOSPAMetric object
+    ospaMetric = trackOSPAMetric(Metric="OSPA", ...
+        LabelingError=0, ...
+        CutoffDistance=c, ...
+        Order=p, ...
+        Distance='posabserr');
+    
+    % Call the object to calculate the OSPA value
+    [ospa, locOspa, cardOspa] = ospaMetric(tracks, truths);
+       
 end
