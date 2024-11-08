@@ -1,36 +1,40 @@
-## Introduction
-This repository contains the codes and experimental data  for the paper "I-ASM: Iterative acoustic scene mapping for enhanced robot auditory perception in complex indoor environments" presented at the International Conference on Intelligent Robots and Systems (IROS), 2024. 
-The paper addresses the challenge of acoustic scene mapping (ASM) in complex indoor environments with multiple sound sources. Unlike existing methods that rely on prior data association or SLAM frameworks, we propose a novel particle filter-based iterative framework, termed I-ASM, for ASM using a mobile robot equipped with a microphone array and LiDAR. I-ASM harnesses an innovative ''implicit association”to align sound sources with Direction of Arrival (DoA) observations without requiring explicit pairing, thereby streamlining the mapping process. Given inputs including an occupancy map, DoA estimates from various
-robot positions, and corresponding robot pose data, I-ASM performs multi-source mapping through an iterative cycle of “Filtering-Clustering-Implicit Associating”. The proposedframework has been tested in real-world scenarios with up to 10 concurrent sound sources, demonstrating its robustness against missing and false DoA estimates while achieving high-quality ASM results.
+# Introduction
+This repository contains code and experimental data for the paper **"I-ASM: Iterative Acoustic Scene Mapping for Enhanced Robot Auditory Perception in Complex Indoor Environments"**, presented at the *International Conference on Intelligent Robots and Systems (IROS) 2024*.
+
+The paper addresses the challenge of **acoustic scene mapping (ASM)** in complex indoor environments with multiple sound sources. Unlike existing methods that rely on prior data association or SLAM frameworks, we propose a novel particle filter-based iterative framework, termed **I-ASM**, for ASM using a mobile robot equipped with a microphone array and LiDAR. 
+
+**I-ASM** leverages an innovative *implicit association* to align sound sources with Direction of Arrival (DoA) observations without explicit pairing, streamlining the mapping process. Given inputs like an occupancy map, DoA estimates from various robot positions, and robot pose data, I-ASM performs multi-source mapping through an iterative cycle of *“Filtering-Clustering-Implicit Associating”*. Tested in real-world scenarios with up to 10 concurrent sound sources, I-ASM demonstrates robustness against missing and false DoA estimates, achieving high-quality ASM results.
 
 ## Citation
 If you use the code or data from this repository, please cite our work:
-L. Fu, Y. He, J. Wang, X. Qiao, and H. Kong*, “I-ASM: Iterative acoustic scene mapping for enhanced robot auditory perception in complex indoor environments”, International Conference on Intelligent Robots and Systems (IROS), 2024.
 
-## Experimental Data
-The experimental data is organized in the `exp_data` directory. Each arrangement has its corresponding folder within `exp_data`, containing relevant data files. To access the data:
+> **L. Fu, Y. He, J. Wang, X. Qiao, and H. Kong***, “I-ASM: Iterative Acoustic Scene Mapping for Enhanced Robot Auditory Perception in Complex Indoor Environments”, International Conference on Intelligent Robots and Systems (IROS), 2024.*
 
-1. Navigate to the `exp_data` directory.
-2. Choose the arrangement of interest.
-3. Access the data files within the arrangement folder.
+## Repository Structure
+- **`exp_data/`**: Contains all experimental data, organized by different test arrangements. Each arrangement has its own folder with relevant data files.
+  
+## Usage Guide
 
-## Offline ASM Evaluation
-To visualize the offline ASM results, follow these steps:
+### Experimental Data Access
+To access and explore the experimental data:
 
-1. Open the `ASM_offline.m` script.
-2. Modify the script by selecting arrangement and SSL method.
-3. Execute the script to visualize the offline mapping results.
+1. Go to the **`exp_data/`** directory.
+2. Select the arrangement of interest.
+3. Open the corresponding folder to access data files for that arrangement.
 
-## Online ASM Implementation
-For online ASM implementation, adhere to the following steps:
+### Offline ASM Evaluation
+To visualize offline ASM results:
 
-1. As the robot moves: save the audio file in the `exp_data\audio` folder in '.wav' form, and its pose data in the `exp_data\pose\pose_theta.xlsx`
-2. Run the `ASM_online.m` script to perform online ASM.
-3. The mapping result will update when there's new audio data detected in the audio folder.
+1. Open the **`ASM_offline.m`** script.
+2. Modify the script to select the desired arrangement and Sound Source Localization (SSL) method.
+3. Run the script to visualize the offline mapping results.
+
+### Online ASM Implementation
+To perform online ASM during robot movement:
+
+1. Save audio files (in `.wav` format) to the **`exp_data/audio/`** folder and the corresponding pose data in **`exp_data/pose/pose_theta.xlsx`**.
+2. Run the **`ASM_online.m`** script to start the online ASM process.
+3. The mapping will update automatically when new audio data is detected in the audio folder.
 
 ## Note
-- Ensure that required MATLAB Toolbox are installed before running the scripts. 
-- Make sure to review and modify scripts according to specific system configurations and requirements.
-
-## Contact
-For questions or feedback, please contact [linya.fu@outlook.com].
+Ensure that the required MATLAB Toolbox is installed before running the scripts.
