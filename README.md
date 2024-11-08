@@ -14,7 +14,7 @@ If you use the code or data from this repository, please cite our work:
 ## Repository Structure
 - **`exp_data/`**: Contains all experimental data, organized by different test arrangements. Each arrangement has its own folder with relevant data files.
 - **`functions/`**: Contains all custom functions required to run the main code.
-- **`mbss_locate/`**: Includes the Sound Source Localization (SSL) MATLAB toolbox, [*Multichannel BSS Locate*](http://bass-db.gforge.inria.fr/bss_locate/), which is used to estimate the **direction-of-arrival (DoA)** of **multiple sources** in a multichannel audio signal recorded by a microphone array.
+- **`mbss_locate/`**: Includes the Sound Source Localization (SSL) MATLAB toolbox, [*Multichannel BSS Locate*](https://gitlab.inria.fr/bass-db/mbss_locate), which is used to estimate the **direction-of-arrival (DoA)** of **multiple sources** in a multichannel audio signal recorded by a microphone array.
 - **`ASM_offline/`**: Contains code to evaluate offline ASM.
 - **`ASM_online/`**: Contains code to perform online ASM.
 
